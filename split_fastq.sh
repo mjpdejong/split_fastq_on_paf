@@ -5,7 +5,6 @@ round=1
 #max number length
 mnl=9
 
-#awk -v a="$var1" -v b="$var2" 'BEGIN {print a,b}'
 cat -n $reads | sed -n 1~4p | awk '{ printf("%s %0"'"$mnl"'"d %0"'"$mnl"'"d %0"'"$mnl"'"d %0"'"$mnl"'"d \n" ,$2, $1, $1+1, $1+2, $1+3) }' | tr -d '@' | sort > $outputfolder/fastqindex.txt
 
 nl -n rz -w $mnl $reads > $outputfolder/fastq.sorted
