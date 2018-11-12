@@ -1,3 +1,6 @@
+#!/bin/bash
+set -ue
+
 reads=test.fastq
 outputfolder=$PWD
 round=1
@@ -11,15 +14,13 @@ nl -n rz -w $mnl $reads > $outputfolder/fastq.sorted
 
 for paf in $outputfolder/round-$round/*.paf ; do
 
-    bin=$(basename $paf | cut -d . -f 1)
+	bin=$(basename $paf .paf)
 
-    join $outputfolder/fastq.sorted <( \
+	join $outputfolder/fastq.sorted <( \
 
 		join <( cat $outputfolder/fastqindex.txt ) <( awk '{print $1}' $paf | sort -u ) | \
 
 		awk '{print $2 "\n" $3 "\n" $4 "\n" $5}' | sort ) | \
 
 	sort | cut -d ' ' -f 2- > $outputfolder/round-$round/$bin.fastq
-
 done
-
